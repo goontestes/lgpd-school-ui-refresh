@@ -1,7 +1,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Play } from "lucide-react";
-import Image from "next/image";
 
 interface IntroSectionProps {
   onStart: () => void;
@@ -11,11 +10,10 @@ const IntroSection = ({ onStart }: IntroSectionProps) => {
   return (
     <div className="grid md:grid-cols-2 gap-8 items-center">
       <div className="hidden md:block relative aspect-square">
-        <Image 
+        <img 
           src="/lovable-uploads/ae7467d6-eadd-4a11-aee7-2131dc66685f.png" 
           alt="LGPD no Ambiente Escolar" 
-          fill
-          className="object-cover rounded-xl"
+          className="object-cover rounded-xl w-full h-full"
         />
       </div>
       <div className="space-y-6">
