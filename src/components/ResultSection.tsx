@@ -1,17 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer,
-  Cell,
-  LabelList,
-} from "recharts";
+import { Progress } from "@/components/ui/progress";
 
 interface ResultSectionProps {
   schoolName: string;
@@ -36,13 +26,14 @@ const ResultSection = ({
   const { percentage, totalChecked } = diagnosisResults;
   const pendingItems = 10 - totalChecked;
 
-  const data = [
-    {
-      name: "Proteção de dados",
-      Atendidos: totalChecked,
-      Pendentes: pendingItems,
-    }
-  ];
+  // Determina a cor do medidor baseado na pontuação
+  const getGaugeColor = (score: number) => {
+    if (score <= 6) return "bg-red-500";
+    if (score <= 8) return "bg-yellow-500";
+    return "bg-green-500";
+  };
+
+  const gaugeColor = getGaugeColor(totalChecked);
 
   return (
     <div className="space-y-6">
@@ -54,25 +45,48 @@ const ResultSection = ({
         A escola atende {totalChecked} de 10 ({percentage}%) critérios de proteção de dados
       </div>
       
-      <div className="bg-white rounded-lg shadow-md p-4 h-64">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={data}
-            layout="vertical"
-            margin={{ top: 20, right: 20, left: 20, bottom: 20 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
-            <XAxis type="number" />
-            <YAxis type="category" dataKey="name" />
-            <Tooltip />
-            <Bar dataKey="Atendidos" stackId="a" fill="#4ade80" radius={[4, 0, 0, 4]}>
-              <LabelList dataKey="Atendidos" position="inside" fill="#fff" fontWeight="bold" />
-            </Bar>
-            <Bar dataKey="Pendentes" stackId="a" fill="#f87171" radius={[0, 4, 4, 0]}>
-              <LabelList dataKey="Pendentes" position="inside" fill="#fff" fontWeight="bold" />
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+      <div className="bg-white rounded-lg shadow-md p-6">
+        {/* Velocímetro/Gauge */}
+        <div className="mb-8 relative">
+          <div className="flex justify-between mb-2 text-sm font-medium">
+            <span className="text-red-500">Baixa</span>
+            <span className="text-yellow-500">Moderada</span>
+            <span className="text-green-500">Alta</span>
+          </div>
+          
+          <div className="h-4 bg-gray-100 rounded-full overflow-hidden">
+            <Progress value={percentage} className="h-full" />
+          </div>
+          
+          <div className="relative h-8 mt-1">
+            <div 
+              className={`absolute top-0 w-6 h-6 rounded-full ${gaugeColor} border-2 border-white shadow-md transform -translate-x-1/2`} 
+              style={{ left: `${percentage}%` }}
+            />
+          </div>
+          
+          <div className="flex justify-between text-xs text-gray-500">
+            <span>0</span>
+            <span>|</span>
+            <span>|</span>
+            <span>|</span>
+            <span>|</span>
+            <span>|</span>
+            <span>10</span>
+          </div>
+        </div>
+        
+        {/* Detalhes numéricos */}
+        <div className="flex justify-center gap-8 text-center">
+          <div className="space-y-1">
+            <div className="text-green-500 font-bold text-2xl">{totalChecked}</div>
+            <div className="text-sm text-gray-600">Atendidos</div>
+          </div>
+          <div className="space-y-1">
+            <div className="text-red-500 font-bold text-2xl">{pendingItems}</div>
+            <div className="text-sm text-gray-600">Pendentes</div>
+          </div>
+        </div>
       </div>
       
       <div className={`p-4 rounded-lg ${complianceInfo.color.replace('bg-', 'bg-opacity-10 text-').replace('-500', '-700')} border-l-4 ${complianceInfo.color}`}>
