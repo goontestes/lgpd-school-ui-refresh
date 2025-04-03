@@ -9,12 +9,14 @@ interface IntroSectionProps {
 const IntroSection = ({ onStart }: IntroSectionProps) => {
   return (
     <div className="grid md:grid-cols-2 gap-12 items-center">
-      <div className="hidden md:block relative rounded-xl overflow-hidden shadow-lg">
-        <img 
-          src="/lovable-uploads/ae7467d6-eadd-4a11-aee7-2131dc66685f.png" 
-          alt="LGPD no Ambiente Escolar" 
-          className="object-cover w-full h-full transform transition-transform hover:scale-105 duration-300"
-        />
+      <div className="hidden md:flex justify-center items-center h-full">
+        <div className="w-full max-w-md aspect-square rounded-xl overflow-hidden shadow-lg">
+          <img 
+            src="/lovable-uploads/ae7467d6-eadd-4a11-aee7-2131dc66685f.png" 
+            alt="LGPD no Ambiente Escolar" 
+            className="object-cover w-full h-full transform transition-transform hover:scale-105 duration-300"
+          />
+        </div>
       </div>
       <div className="space-y-6">
         <div className="p-4 rounded-xl bg-blue-50 border-l-4 border-blue-500 text-blue-800">
